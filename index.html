@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STOP WATCH+</title>
+    <link rel="icon" type="icon" href="watch-icon-20.jpg" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h2 class="heading">HERE CALCULATE YOUR TIME</h2>
+    <div id="tag">
+      <span id="tag-1">hours</span>
+      <span id="tag-2">minutes</span>
+      <span id="tag-2">seconds</span>
+      <span id="tag-3">mill-sec</span>
+    </div>
+
+    <div id="timer">
+      <span id="hours">00</span>
+      <span>:</span>
+      <span id="minutes">00</span>
+      <span>:</span>
+      <span id="seconds">00</span>
+      <span>.</span>
+      <span id="milliseconds">00</span>
+    </div>
+    <div id="buttons">
+      <button id="button-1" type="button">start</button>
+      <button id="button-2" type="button" disabled>stop</button>
+      <button id="button-3" type="button">reset</button>
+      <button id="button-4" type="button">mark</button>
+    </div>
+    <ul id="list"></ul>
+    <script>
+      let hour = document.getElementById("hours");
+      let min = document.getElementById("minutes");
+      let sec = document.getElementById("seconds");
+      let millsec = document.getElementById("milliseconds");
+      let startbtn = document.getElementById("button-1");
+      let stopbtn = document.getElementById("button-2");
+      let resetbtn = document.getElementById("button-3");
+      let markbtn = document.getElementById("button-4");
+      let current = 0;
+      let interval;
+      let serialno=0;
+      function twodigit(num) {
+        return num < 10 ? "0" + num : num;
+      }
+      let hr =0;
+        let m =0;
+        let s =0;
+        let ms = 0;
+      function start() {
+        
+        
+          ms++
+     ms = ms < 10 ? "0" + ms : ms;
+
+    if(ms == 100){
+      s++;
+      s = s< 10 ? "0" + s : s;
+      ms = "0" + 0;
+    }
+    if(s == 60){
+      m++;
+      m = m < 10 ? "0" + m: m;
+      s = "0" + 0;
+    }
+    if(m== 60){
+      hr++;
+      hr = hr < 10 ? "0" + hr : hr;
+      m = "0" + 0;
+    }
+
+        millsec.innerHTML = twodigit(Math.floor(ms));
+        sec.innerHTML = twodigit(Math.floor(s));
+        min.innerHTML = twodigit(Math.floor(m));
+        hour.innerHTML = twodigit(Math.floor(hr));
+      }
+      function reset() {
+        clearInterval(interval);
+        s=hr=m=ms=0;
+        document.getElementById("list").innerHTML=null;
+        startbtn.disabled = false;
+        millsec.innerHTML = twodigit(Math.floor(0));
+        sec.innerHTML = twodigit(Math.floor(0));
+        min.innerHTML = twodigit(Math.floor(0));
+        hour.innerHTML = twodigit(Math.floor(0));
+      }
+      startbtn.addEventListener("click", () => {
+        interval = setInterval(start, 10);
+        startbtn.disabled = true;
+        stopbtn.disabled = false;
+      });
+      stopbtn.addEventListener("click", () => {
+        clearInterval(interval);
+        startbtn.disabled = false;
+        stopbtn.disabled = true;
+      });
+        resetbtn.addEventListener("click", reset);
+        markbtn.addEventListener("click", addList);
+       function addList() {
+        serialno++;
+        let tempList = document.createElement("li");
+        let textnode = document.createTextNode(
+        serialno+" =>  "+ document.getElementById("hours").innerHTML+"."+ document.getElementById("minutes").innerHTML+":"+document.getElementById("seconds").innerHTML+"."+document.getElementById("milliseconds").innerHTML
+        );
+        tempList.appendChild(textnode);
+        document.getElementById("list").prepend(tempList);
+      }
+    </script>
+  </body>
+</html>
